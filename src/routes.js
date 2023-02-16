@@ -4,8 +4,6 @@ const ContactController = require('./app/controllers/ContactController')
 
 const router = Router()
 
-router.get('/contacts', (request, response) => {
-  response.send('Olá')
-})
+router.get('/contacts', ContactController.index)
 
 module.exports = router

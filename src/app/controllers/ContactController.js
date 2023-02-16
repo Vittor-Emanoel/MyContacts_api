@@ -1,6 +1,7 @@
 class ContactController {
-  index() {
+  index(request, response) {
     // listar
+    response.send('send from contact controller')
   }
 
   show() {
