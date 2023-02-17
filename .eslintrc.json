@@ -13,6 +13,7 @@
     "rules": {
         "space-before-function-paren" :"off",
         "comma-dangle" :"off",
-        "prefer-const": "off"
+        "prefer-const": "off",
+        "camelcase": "off"
     }
 }
