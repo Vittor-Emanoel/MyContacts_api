@@ -1,6 +1,6 @@
 CREATE DATABASE mycontacts;
 
-CREATE EXTENSION  ID NOT EXISTS "uuid-ossp";
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE IF NOT EXISTS categories (
     id UUID NOT NULL UNIQUE DEFAULT uuid_generate_v4(),
