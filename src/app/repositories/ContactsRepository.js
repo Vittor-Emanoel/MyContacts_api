@@ -48,25 +48,25 @@ class ContactsRepository {
 
   async create({ name, email, phone, category_id }) {
     const [rows] = await db.query(
-      'INSERT INTO contacts(name, email, phone, category_id) VALUES ($1, $2, $3, $4) RETURNING * ',
+      `INSERT INTO contacts(name, email, phone, category_id) 
+    VALUES ($1,  $2,  $3,  $4) 
+    RETURNING * `,
       [name, email, phone, category_id]
     )
     return rows
   }
 
-  update(id, { name, email, phone, category_id }) {
-    return new Promise((resolve, reject) => {
-      const updatedContact = {
-        name,
-        email,
-        phone,
-        category_id,
-      }
-      contacts = contacts.map((contact) =>
-        contact.id === id ? updatedContact : contact
-      )
-      resolve(updatedContact)
-    })
+  async update(id, { name, email, phone, category_id }) {
+    const [rows] = await db.query(
+      `
+      UPDATE contacts 
+      SET name = $1, email= $2, phone = $3, category_id = $4
+      WHERE id = $5
+      RETURNING *
+    `,
+      [name, email, phone, category_id, id]
+    )
+    return rows
   }
 }
 
