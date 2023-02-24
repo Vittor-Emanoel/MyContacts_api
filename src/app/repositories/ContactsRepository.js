@@ -5,7 +5,7 @@ let contacts = [
   {
     id: v4(),
     name: 'Vittor',
-    email: 'vittor@gmail.com',
+    email: 'vittodddr@gmail.com',
     phone: '123456789',
     category_id: v4(),
   },
@@ -21,7 +21,10 @@ let contacts = [
 class ContactsRepository {
   async findAll() {
     const rows = await db.query('SELECT * FROM contacts')
+<<<<<<< HEAD
     return rows
+=======
+>>>>>>> 72e7e09ea5270929ac188f6c93ebb7f506da20e9
   }
 
   async findById(id) {
