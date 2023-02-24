@@ -6,6 +6,11 @@ class CategoriesRepository {
     return rows
   }
 
+  async findById(id) {
+    const row = await db.query('SELECT * FROM categories WHERE id = $1', [id])
+    return row
+  }
+
   async create({ name }) {
     const [row] = await db.query(
       `
@@ -15,6 +20,27 @@ class CategoriesRepository {
       [name]
     )
     return row
+  }
+
+  async delete(id) {
+    const deleteOP = await db.query('DELETE FROM categories WHERE id = $1', [
+      id,
+    ])
+
+    return deleteOP
+  }
+
+  async update({ id, name }) {
+    const [rows] = await db.query(
+      `
+    UPDATE categories
+    SET name = $1
+    RETURNING *
+    WHERE id = $2
+    `,
+      [name, id]
+    )
+    return rows
   }
 }
 
