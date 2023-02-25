@@ -1,4 +1,5 @@
 const CategoriesRepository = require('../repositories/CategoriesRepository')
+require('express-async-errors')
 
 class CategoryController {
   async index(request, response) {
