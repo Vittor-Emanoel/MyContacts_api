@@ -9,7 +9,7 @@ app.use(express.json())
 app.use(routes)
 
 // error handler
-app.use((error, request, response, next) => {
+app.use((error, request, response) => {
   console.log(error)
   response.sendStatus(500)
 })
