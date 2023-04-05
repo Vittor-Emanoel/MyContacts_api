@@ -6,7 +6,8 @@
   "author": "Vittor Emanoel",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/index.js",
+    "vercel-build" : "src/database"
   },
   "dependencies": {
     "express": "^4.18.2",
