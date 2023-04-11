@@ -6,8 +6,7 @@
   "author": "Vittor Emanoel",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon src/index.js",
-    "vercel-build": "src/database/schema.sql"
+    "dev": "nodemon src/index.js"
   },
   "dependencies": {
     "@neondatabase/serverless": "^0.2.9",
