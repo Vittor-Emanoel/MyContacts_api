@@ -4,7 +4,7 @@ const {Pool} = require('@neondatabase/serverless')
 
 module.exports = {
   async fetch(req, env, ctx) {
-    const pool = new Pool({ connectionString: 'postgres://Vittor-Emanoel:7BPisgzqcG4N@ep-delicate-block-399797.us-east-2.aws.neon.tech/neondb' });
+    const pool = new Pool({ connectionString: process.env.DATABASE_URL });
     const { rows: [{ now }] } = await pool.query('SELECT now()');
     ctx.waitUntil(pool.end());
     return new Response(now);
