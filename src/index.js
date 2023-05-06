@@ -3,6 +3,7 @@ const express = require('express')
 const routes = require('./routes')
 const cors = require('./app/middlewares/cors')
 const errorHandler = require('./app/middlewares/errorHandler')
+require('express-async-errors')
 
 const app = express()
 
