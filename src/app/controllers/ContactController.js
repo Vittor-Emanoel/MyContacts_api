@@ -9,7 +9,7 @@ class ContactController {
     response.json(contacts);
   }
 
-  // obter um registro
+  
   async show(request, response) {
     const { id } = request.params;
 
