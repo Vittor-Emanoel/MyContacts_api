@@ -1,7 +1,7 @@
 const ContactsRepository = require("../repositories/ContactsRepository");
+const isValidUUID = require('../utils/isValidUUID')
 
 class ContactController {
-  // listar
   async index(request, response) {
     const { orderBy } = request.query;
     const contacts = await ContactsRepository.findAll(orderBy);
@@ -9,9 +9,12 @@ class ContactController {
     response.json(contacts);
   }
 
-  
   async show(request, response) {
     const { id } = request.params;
+
+    if(!isValidUUID(id)) {
+      return response.status(400).json({ error: 'Invalid user id' })
+    }
 
     const contact = await ContactsRepository.findById(id);
 
@@ -23,28 +26,31 @@ class ContactController {
   }
 
   async store(request, response) {
-    // criando novo registro
     const { name, email, phone, category_id } = request.body;
 
     if (!name) {
       return response.status(400).json({ error: "Name is required" });
     }
 
-    const contactExists = await ContactsRepository.findByEmail(email);
-
-    if (contactExists) {
-      return response
-        .status(400)
-        .json({ error: "This email is already in use" });
+    if(category_id && !isValidUUID(category_id)) {
+      return response.status(400).json({ error: 'Invalid category' })
     }
+
+    if(email) {
+      const contactExists = await ContactsRepository.findByEmail(email);
+      if (contactExists) {
+        return response.status(400) .json({ error: "This email is already in use" });
+      }  
+    }
+
 
     const contact = await ContactsRepository.create({
       name,
-      email,
+      email: email || null,
       phone,
-      category_id,
+      category_id: category_id || null,
     });
-    return response.json(contact);
+    return response.status(201).json(contact);
   }
 
   async update(request, response) {
@@ -52,31 +58,41 @@ class ContactController {
     const { id } = request.params;
     const { name, email, phone, category_id } = request.body;
 
+    if(!isValidUUID(id)) {
+      return response.status(400).json({ error: 'Invalid user id' })
+    }
+
+    if(category_id && !isValidUUID(category_id)) {
+      return response.status(400).json({ error: 'Invalid category' })
+    }
+    
+    if (!name) {
+      return response.status(400).json({ error: "name is required" });
+    }
+
     const contactExists = await ContactsRepository.findById(id);
+
     if (!contactExists) {
       return response.status(404).json({
         error: "user not found",
       });
     }
-    if (!name) {
-      return response.status(400).json({ error: "name is required" });
+
+    if(email) {
+      const contactByEmail = await ContactsRepository.findByEmail(email);
+      if (contactByEmail && contactByEmail.id !== id) {
+        return response.status(400).json({ error: "This email is already  in use" });
+      }
     }
 
-    const contactByEmail = await ContactsRepository.findByEmail(email);
-
-    if (contactByEmail && contactByEmail.id !== id) {
-      return response
-        .status(400)
-        .json({ error: "This email is already  in use" });
-    }
 
     const contact = await ContactsRepository.update(id, {
       name,
-      email,
+      email: email || null,
       phone,
-      category_id,
+      category_id: category_id || null ,
     });
-    response.status(201).json(contact);
+    response.json(contact);
   }
 
   // deletar um registro
